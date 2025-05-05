@@ -1,0 +1,63 @@
+Steps to create and configure Database 
+DDL Scripts:
+create database school_vaccination_portal;
+
+use school_vaccination_portal;
+
+CREATE TABLE users (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    full_name VARCHAR(150) NOT NULL,
+    role VARCHAR(50) NOT NULL,
+    email VARCHAR(150) NOT NULL UNIQUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    last_login_at TIMESTAMP NULL
+);
+
+Sample insert script :INSERT INTO `` (`id`,`username`,`password`,`full_name`,`role`,`email`,`created_at`,`last_login_at`) VALUES (1,'Himanshu','$2a$10$bt7lQboKCMzCpFKNyMCCa.CJVZTtHRPowsGsaQGCsLj3jbt81sG2.','Himanshu Deepak Devi','ADMIN','2024tm93181@wilp.bits-pilani.ac.in','2025-04-20 19:15:03',NULL);
+
+
+
+CREATE TABLE user_tokens (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT NOT NULL,
+    token TEXT NOT NULL,
+    issued_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    expires_at TIMESTAMP,
+
+    CONSTRAINT fk_user_tokens_user_id
+      FOREIGN KEY (user_id)
+      REFERENCES users(id)
+      ON DELETE CASCADE
+);
+
+CREATE TABLE `vaccination_drive` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `class_name` varchar(255) DEFAULT NULL,
+  `date` date DEFAULT NULL,
+  `doses_required` int NOT NULL,
+  `vaccine_name` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) 
+
+Sample insert script :INSERT INTO `` (`id`,`class_name`,`date`,`doses_required`,`vaccine_name`) VALUES (1,'VII','2025-05-10',500,'COVISHIELD');
+
+
+
+CREATE TABLE `Student` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `class_name` varchar(255) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `student_id` varchar(255) DEFAULT NULL,
+  `vaccinated` bit(1) NOT NULL,
+  `vaccination_date` date DEFAULT NULL,
+  `vaccine_name` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+)
+Sample insert script :
+INSERT INTO `` (`id`,`class_name`,`name`,`student_id`,`vaccinated`,`vaccination_date`,`vaccine_name`) VALUES (5,'XI','Avni Dubey','S484','0',NULL,NULL);
+
+
+
+
