@@ -1,4 +1,6 @@
-Steps to create and configure Database 
+Steps to create and configure Database (MYSQL workbench)
+Mysql DB schema Username:root,
+ Mysql DB schema password:himanshu
 DDL Scripts:
 create database school_vaccination_portal;
 
