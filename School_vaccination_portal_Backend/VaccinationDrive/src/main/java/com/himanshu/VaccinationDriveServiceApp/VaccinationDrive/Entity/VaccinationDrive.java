@@ -16,6 +16,9 @@ public class VaccinationDrive {
     private LocalDate date;
     private int dosesRequired;
 
+    @Enumerated(EnumType.STRING)
+    private DriveStatus status;
+
     public Long getId() {
         return id;
     }
@@ -55,14 +58,24 @@ public class VaccinationDrive {
     public void setDosesRequired(int dosesRequired) {
         this.dosesRequired = dosesRequired;
     }
+
+    public DriveStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(DriveStatus status) {
+        this.status = status;
+    }
+
     public VaccinationDrive(){}
 
-    public VaccinationDrive(Long id, String vaccineName, String className, LocalDate date, int dosesRequired) {
+    public VaccinationDrive(Long id, String vaccineName, String className, LocalDate date, int dosesRequired,DriveStatus status) {
         this.id = id;
         this.vaccineName = vaccineName;
         this.className = className;
         this.date = date;
         this.dosesRequired = dosesRequired;
+        this.status=status;
     }
 
     @Override

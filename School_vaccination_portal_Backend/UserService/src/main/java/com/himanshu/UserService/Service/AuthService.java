@@ -25,4 +25,8 @@ public class AuthService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepo.save(user);
     }
+
+    public Optional<User> getUserByUsername(String username) {
+        return userRepo.findByUsername(username);
+    }
 }

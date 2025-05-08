@@ -1,6 +1,6 @@
 package com.himanshu.VaccinationDriveServiceApp.VaccinationDrive.Service;
 
-
+import com.himanshu.VaccinationDriveServiceApp.VaccinationDrive.Entity.DriveStatus;
 import com.himanshu.VaccinationDriveServiceApp.VaccinationDrive.Entity.VaccinationDrive;
 import com.himanshu.VaccinationDriveServiceApp.VaccinationDrive.repository.DriveRepository;
 import org.springframework.stereotype.Service;
@@ -38,33 +38,34 @@ public class DriveService {
 
     public VaccinationDrive updateDrive(Long id, VaccinationDrive updatedDrive) {
         try {
-            // Attempt to find the existing drive by id
             VaccinationDrive existing = driveRepository.findById(id)
                     .orElseThrow(() -> new RuntimeException("Drive not found"));
 
-            // Check if the drive is in the past
+            // Do not allow editing of past drives
             if (existing.getDate().isBefore(LocalDate.now())) {
                 throw new RuntimeException("Cannot edit a past drive.");
             }
 
-            // Update the existing drive with the new details
+            // Update editable fields
             existing.setVaccineName(updatedDrive.getVaccineName());
             existing.setClassName(updatedDrive.getClassName());
             existing.setDate(updatedDrive.getDate());
             existing.setDosesRequired(updatedDrive.getDosesRequired());
 
-            // Save and return the updated drive
+            // Update status (if changed), assuming role check is already done in controller
+            if (updatedDrive.getStatus() != null && updatedDrive.getStatus() != existing.getStatus()) {
+                existing.setStatus(updatedDrive.getStatus());
+            }
+
             return driveRepository.save(existing);
 
         } catch (RuntimeException e) {
-            // Log the exception and rethrow it
             System.err.println("Error occurred while updating the drive: " + e.getMessage());
-            e.printStackTrace();  // This will print the full stack trace to the console
+            e.printStackTrace();
             throw new RuntimeException("Failed to update the drive: " + e.getMessage(), e);
         } catch (Exception e) {
-            // Catch any unexpected exceptions
             System.err.println("Unexpected error occurred: " + e.getMessage());
-            e.printStackTrace();  // This will print the full stack trace to the console
+            e.printStackTrace();
             throw new RuntimeException("An unexpected error occurred while updating the drive.", e);
         }
     }
@@ -73,7 +74,3 @@ public class DriveService {
         return driveRepository.findAll();
     }
 }
-
-
-
-

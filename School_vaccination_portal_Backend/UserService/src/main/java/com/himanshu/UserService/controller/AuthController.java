@@ -34,6 +34,12 @@ public class AuthController {
         }
     }
 
+    @GetMapping("/users/{username}")
+    public ResponseEntity<?> getUserByUsername(@PathVariable String username) {
+        return authService.getUserByUsername(username)
+                .<ResponseEntity<?>>map(ResponseEntity::ok)
+                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found"));
+    }
 
 
 
